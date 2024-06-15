@@ -1,0 +1,49 @@
+version: '3.8'
+
+services:
+    wordpress:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        container_name: wordpress
+        ports:
+            - "80:80"
+        environment:
+            WORDPRESS_DB_HOST: db
+            WORDPRESS_DB_USER: root
+            WORDPRESS_DB_PASSWORD: pass
+            WORDPRESS_DB_NAME: wordpress
+            WORDPRESS_URL: http://localhost
+            WORDPRESS_TITLE: "Meu Site"
+            WORDPRESS_ADMIN_USER: admin
+            WORDPRESS_ADMIN_PASSWORD: admin
+            WORDPRESS_ADMIN_EMAIL: admin@example.com
+        volumes:
+            - ./wp-core:/var/www/html
+            - ./plugins:/var/www/html/wp-content/plugins
+            - ./themes:/var/www/html/wp-content/themes
+        depends_on:
+            - db
+
+    db:
+        image: mariadb:latest
+        container_name: mariadb
+        environment:
+            MYSQL_ROOT_PASSWORD: pass
+            MYSQL_DATABASE: wordpress
+        volumes:
+            - db_data:/var/lib/mysql
+
+    phpmyadmin:
+        image: phpmyadmin/phpmyadmin
+        container_name: phpmyadmin
+        ports:
+            - "8080:80"
+        environment:
+            PMA_HOST: db
+            MYSQL_ROOT_PASSWORD: pass
+        depends_on:
+            - db
+
+volumes:
+    db_data:

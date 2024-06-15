@@ -1,0 +1,20 @@
+# EditorConfig is awesome: https://EditorConfig.org
+
+# top-most EditorConfig file
+root = true
+
+[*]
+indent_style = space
+indent_size = 4
+end_of_line = lf
+charset = utf-8
+end_of_line = lf
+insert_final_newline = true
+
+[*.{php,html,css,scss,js,jsx}]
+indent_style = space
+indent_size = 4
+
+[*.php]
+indent_style = space
+indent_size = 4
