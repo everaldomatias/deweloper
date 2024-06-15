@@ -1,2 +1,2 @@
-# deweloper
-Local environment to WordPress
+# deWeloPer
+Local environment for WordPress
