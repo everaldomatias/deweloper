@@ -64,10 +64,10 @@ Para acessar o phpMyAdmin e gerenciar o banco de dados MariaDB, utilize o seguin
 
 ### Pedindo credenciais FTP ao instalar plugins
 
-Se o WordPress pedir credenciais FTP ao tentar instalar plugins, certifique-se de que as permissões dos diretórios `wp-core`, `plugins` e `themes` estão corretas:
+Se o WordPress pedir credenciais FTP ao tentar instalar plugins/temas, certifique-se de que as permissões dos diretórios `wp-core`, `plugins` e `themes` estão corretas:
 ```sh
-sudo chown -R $USER:$USER wp-core plugins themes
-sudo chmod -R 755 wp-core plugins themes
+sudo chown -R $USER:www-data wp-core plugins themes
+sudo chmod -R 775 wp-core plugins themes
 ```
 
 ### Banco de dados não conectando

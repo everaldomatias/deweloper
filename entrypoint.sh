@@ -31,7 +31,8 @@ fi
 wp rewrite structure '/%postname%/' --hard --allow-root
 wp rewrite flush --allow-root
 
-chown -R www-data:www-data wp-content/plugins wp-content/themes
+chown -R www-data:www-data wp-content
+chmod -R 755 wp-content
 
 exec "$@"
 
