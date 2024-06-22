@@ -14,7 +14,6 @@ Este repositório contém a configuração necessária para criar um ambiente de
 - `wp-core/`: Diretório onde os arquivos principais do WordPress serão armazenados.
 - `plugins/`: Diretório para os plugins do WordPress.
 - `themes/`: Diretório para os temas do WordPress.
-- `db_data/`: Volume para os dados do banco de dados MariaDB.
 
 ## Configuração do ambiente
 
@@ -26,12 +25,17 @@ Este repositório contém a configuração necessária para criar um ambiente de
 
 ## Iniciando o ambiente
 
-Para iniciar o ambiente de desenvolvimento, execute o seguinte comando:
+Para iniciar o ambiente de desenvolvimento pela primeira vez, execute o seguinte comando:
 ```sh
 docker-compose up --build
 ```
 
-Isso irá construir as imagens Docker conforme definido no `Dockerfile` e iniciar os containers em segundo plano.
+Isso construirá as imagens Docker conforme definido no `Dockerfile` e iniciar os containers.
+
+Para iniciar o ambiente de desenvolvimento após a instalação inicial, execute o seguinte comando:
+```sh
+docker-compose up
+```
 
 ### Acessando o WordPress
 
@@ -43,6 +47,7 @@ Após iniciar os containers, você pode acessar o WordPress no seu navegador atr
 [http://localhost/wp-admin](http://localhost/wp-admin)
 
 Usuário: admin
+
 Senha: admin
 
 ### Acessando o phpMyAdmin
@@ -57,16 +62,19 @@ Para acessar o phpMyAdmin e gerenciar o banco de dados MariaDB, utilize o seguin
 ## Considerações adicionais
 
 - As alterações feitas nos diretórios `wp-core`, `plugins` e `themes` serão persistidas e refletidas diretamente no ambiente de desenvolvimento.
-- O volume `db_data` garante que os dados do banco de dados sejam persistentes entre reinicializações dos containers.
 - A estrutura dos links permanentes é configurada automaticamente após a instalação do WordPress através do script `entrypoint.sh`para "postname".
 
 ## Problemas comuns
 
-### Pedindo credenciais FTP ao instalar plugins
+### Pedindo credenciais FTP ao instalar plugins ou qualquer ação fora do container
 
-Se o WordPress pedir credenciais FTP ao tentar instalar plugins/temas, certifique-se de que as permissões dos diretórios `wp-core`, `plugins` e `themes` estão corretas:
+Se o WordPress pedir credenciais FTP ao tentar instalar plugins/temas ou clonar plugins/temas, certifique-se de que as permissões dos diretórios `wp-core`, `plugins` e `themes` estão corretas (substituindo $USER pelo seu usuário local, quando necessário):
+
 ```sh
 sudo chown -R $USER:www-data wp-core plugins themes
+```
+
+```sh
 sudo chmod -R 775 wp-core plugins themes
 ```
 
