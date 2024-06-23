@@ -1,4 +1,4 @@
-FROM wordpress:latest
+FROM wordpress:6.5.4-php8.1-apache
 
 RUN apt-get update && apt-get install -y less mariadb-client sudo curl \
     && curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar \
