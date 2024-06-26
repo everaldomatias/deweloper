@@ -59,6 +59,12 @@ Para acessar o phpMyAdmin e gerenciar o banco de dados MariaDB, utilize o seguin
 - **Senha**: pass
 - **Servidor**: db
 
+### Acessando o Mailhog
+
+O Mailhog é um container com uma caixa de entrada de e-mails, ele registra todos e-mails enviados pelo WordPress. É importante saber que todos e-mails são deletados quando o container é encerrado.
+
+Para acessar o Mailhog (caixa de entrada) acesse http://localhost:8025
+
 ## Considerações adicionais
 
 - As alterações feitas nos diretórios `wp-core`, `plugins` e `themes` serão persistidas e refletidas diretamente no ambiente de desenvolvimento.
