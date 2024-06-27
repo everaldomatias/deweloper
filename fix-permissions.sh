@@ -16,7 +16,10 @@ fi
 # Alterar o proprietário para USER:WEB_USER
 sudo chown -R $USER:$WEB_USER $DIRS
 
-# Alterar permissões para 775
-sudo chmod -R 775 $DIRS
+# Alterar permissões para diretórios
+sudo find $DIRS -type d -exec chmod 755 {} \;
+
+# Alterar permissões para arquivos
+sudo find $DIRS -type f -exec chmod 644 {} \;
 
 echo "Permissões e proprietário alterados para os diretórios: $DIRS com o usuário da web: $WEB_USER"
