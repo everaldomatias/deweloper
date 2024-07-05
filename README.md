@@ -15,6 +15,13 @@ Este repositório contém a configuração necessária para criar um ambiente de
 - `plugins/`: Diretório para os plugins do WordPress.
 - `themes/`: Diretório para os temas do WordPress.
 
+## Evitar rastreamento de mudanças nas permissões dos arquivos
+
+Por padrão, o Git rastreia mudanças nas permissões dos arquivos, como as permissões de execução. No entanto, em algumas situações, como quando você trabalha em um sistema de arquivos compartilhado ou em um sistema onde as permissões de arquivos são frequentemente alteradas por outros processos, como o Docker, você pode não querer que o Git rastreie essas mudanças.
+Definindo `core.fileMode` como `false`, você instrui o Git a ignorar essas alterações de permissão.
+
+`git config core.fileMode false`
+
 ## Configuração do ambiente
 
 1. Clone o repositório:
