@@ -35,7 +35,7 @@ services:
             MYSQL_ROOT_PASSWORD: pass
             MYSQL_DATABASE: wordpress
         volumes:
-            - db_data:/var/lib/mysql
+            - ./db_data:/var/lib/mysql
 
     phpmyadmin:
         image: phpmyadmin/phpmyadmin
@@ -54,6 +54,3 @@ services:
         ports:
             - "1025:1025"
             - "8025:8025"
-
-volumes:
-    db_data:
