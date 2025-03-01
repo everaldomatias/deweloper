@@ -1,5 +1,7 @@
 FROM wordpress:6.5.4-php8.1-apache
 
+RUN echo "memory_limit = 512M" > /usr/local/etc/php/conf.d/docker-php-memory.ini
+
 RUN apt-get update && apt-get install -y less mariadb-client sudo curl \
     && curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar \
     && chmod +x wp-cli.phar \

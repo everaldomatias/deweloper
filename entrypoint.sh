@@ -1,6 +1,9 @@
 #!/bin/bash
 set -e
 
+# Configurar o memory_limit diretamente no runtime
+echo "memory_limit = 512M" > /usr/local/etc/php/conf.d/docker-php-memory.ini
+
 echo "Esperando o banco de dados..."
 while ! mysqladmin ping -h"$WORDPRESS_DB_HOST" -u"$WORDPRESS_DB_USER" -p"$WORDPRESS_DB_PASSWORD" --silent; do
     sleep 5
@@ -35,4 +38,3 @@ chown -R www-data:www-data wp-content
 chmod -R 755 wp-content
 
 exec "$@"
-
