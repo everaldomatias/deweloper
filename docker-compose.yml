@@ -5,7 +5,7 @@ services:
         build:
             context: .
             dockerfile: Dockerfile
-        container_name: wordpress
+        container_name: ${COMPOSE_PROJECT_NAME}_wordpress
         ports:
             - "80:80"
         environment:
@@ -22,14 +22,14 @@ services:
             WORDPRESS_SMTP_PORT: 1025
         volumes:
             # - ./wp-core:/var/www/html
-            - ../seripar:/var/www/html/wp-content/plugins/seripar
+            - ./themes:/var/www/html/wp-content/themes/
             - ./.htaccess:/var/www/html/.htaccess
         depends_on:
             - db
 
     db:
         image: mariadb:latest
-        container_name: mariadb
+        container_name: ${COMPOSE_PROJECT_NAME}_mariadb
         environment:
             MYSQL_ROOT_PASSWORD: pass
             MYSQL_DATABASE: wordpress
@@ -38,7 +38,7 @@ services:
 
     phpmyadmin:
         image: phpmyadmin/phpmyadmin
-        container_name: phpmyadmin
+        container_name: ${COMPOSE_PROJECT_NAME}_phpmyadmin
         ports:
             - "8080:80"
         environment:
@@ -49,7 +49,7 @@ services:
 
     mailhog:
         image: mailhog/mailhog
-        container_name: mailhog
+        container_name: ${COMPOSE_PROJECT_NAME}_mailhog
         ports:
             - "1025:1025"
             - "8025:8025"

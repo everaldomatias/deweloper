@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Diretórios a serem modificados
-DIRS="wp-core plugins themes"
+DIRS="plugins themes"
 
 # Detectar a distribuição e definir o usuário apropriado
 if grep -q "Ubuntu" /etc/os-release; then
