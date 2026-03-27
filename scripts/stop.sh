@@ -1,10 +1,4 @@
 #!/bin/bash
+set -e
 
-# Verifica se há contêineres em execução
-if [ "$(docker ps -q)" ]; then
-  echo "Parando todos os contêineres..."
-  docker stop $(docker ps -q)
-  echo "Todos os contêineres foram parados."
-else
-  echo "Nenhum contêiner está em execução."
-fi
+COMPOSE_PROJECT_NAME=${COMPOSE_PROJECT_NAME:-${PWD##*/}} docker compose stop

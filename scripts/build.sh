@@ -1,2 +1,4 @@
 #!/bin/bash
-COMPOSE_PROJECT_NAME=${PWD##*/} docker-compose up --build
+set -e
+
+COMPOSE_PROJECT_NAME=${COMPOSE_PROJECT_NAME:-${PWD##*/}} docker compose up --build

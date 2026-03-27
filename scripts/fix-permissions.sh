@@ -1,25 +1,14 @@
 #!/bin/bash
+set -e
 
-# Diretórios a serem modificados
 DIRS="plugins themes"
 
-# Detectar a distribuição e definir o usuário apropriado
-if grep -q "Ubuntu" /etc/os-release; then
-    WEB_USER="www-data"
-elif grep -q "Manjaro" /etc/os-release; then
-    WEB_USER="http"
-else
-    echo "Distribuição não suportada!"
-    exit 1
-fi
+mkdir -p plugins themes
 
-# Alterar o proprietário para USER:WEB_USER
-sudo chown -R $USER:$WEB_USER $DIRS
+echo "Ajustando permissões básicas dos diretórios locais..."
+find $DIRS -type d -exec chmod 775 {} \;
+find $DIRS -type f -exec chmod 664 {} \;
 
-# Alterar permissões para diretórios
-sudo find $DIRS -type d -exec chmod 755 {} \;
-
-# Alterar permissões para arquivos
-sudo find $DIRS -type f -exec chmod 644 {} \;
-
-echo "Permissões e proprietário alterados para os diretórios: $DIRS com o usuário da web: $WEB_USER"
+echo "Permissões ajustadas."
+echo "Ownership não será alterado por este script."
+echo "Se ainda houver conflito, confira HOST_UID e HOST_GID no .env e refaça o build."

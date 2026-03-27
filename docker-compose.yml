@@ -1,55 +1,49 @@
-version: '3.3'
-
 services:
-    wordpress:
-        build:
-            context: .
-            dockerfile: Dockerfile
-        container_name: ${COMPOSE_PROJECT_NAME}_wordpress
-        ports:
-            - "80:80"
-        environment:
-            WORDPRESS_DB_HOST: db
-            WORDPRESS_DB_USER: root
-            WORDPRESS_DB_PASSWORD: pass
-            WORDPRESS_DB_NAME: wordpress
-            WORDPRESS_URL: http://localhost
-            WORDPRESS_TITLE: "deWeloPer"
-            WORDPRESS_ADMIN_USER: admin
-            WORDPRESS_ADMIN_PASSWORD: admin
-            WORDPRESS_ADMIN_EMAIL: admin@example.com
-            WORDPRESS_SMTP_HOST: mailhog
-            WORDPRESS_SMTP_PORT: 1025
-        volumes:
-            # - ./wp-core:/var/www/html
-            - ./themes:/var/www/html/wp-content/themes/
-            - ./.htaccess:/var/www/html/.htaccess
-        depends_on:
-            - db
+  wordpress:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        HOST_UID: ${HOST_UID:-1000}
+        HOST_GID: ${HOST_GID:-1000}
+    container_name: ${COMPOSE_PROJECT_NAME}_wordpress
+    ports:
+      - "80:80"
+    environment:
+      WORDPRESS_DB_HOST: db
+      WORDPRESS_DB_USER: root
+      WORDPRESS_DB_PASSWORD: pass
+      WORDPRESS_DB_NAME: wordpress
+      WORDPRESS_URL: http://localhost
+      WORDPRESS_TITLE: "deWeloPer"
+      WORDPRESS_ADMIN_USER: admin
+      WORDPRESS_ADMIN_PASSWORD: admin
+      WORDPRESS_ADMIN_EMAIL: admin@example.com
+      WORDPRESS_SMTP_HOST: mailhog
+      WORDPRESS_SMTP_PORT: 1025
+    volumes:
+      - ./themes:/var/www/html/wp-content/themes
+      - ./plugins:/var/www/html/wp-content/plugins
+      - ./.htaccess:/var/www/html/.htaccess
+    depends_on:
+      - db
 
-    db:
-        image: mariadb:latest
-        container_name: ${COMPOSE_PROJECT_NAME}_mariadb
-        environment:
-            MYSQL_ROOT_PASSWORD: pass
-            MYSQL_DATABASE: wordpress
-        volumes:
-            - ./db_data:/var/lib/mysql
+  db:
+    image: mariadb:latest
+    container_name: ${COMPOSE_PROJECT_NAME}_mariadb
+    environment:
+      MYSQL_ROOT_PASSWORD: pass
+      MYSQL_DATABASE: wordpress
+    volumes:
+      - ./db_data:/var/lib/mysql
 
-    phpmyadmin:
-        image: phpmyadmin/phpmyadmin
-        container_name: ${COMPOSE_PROJECT_NAME}_phpmyadmin
-        ports:
-            - "8080:80"
-        environment:
-            PMA_HOST: db
-            MYSQL_ROOT_PASSWORD: pass
-        depends_on:
-            - db
-
-    mailhog:
-        image: mailhog/mailhog
-        container_name: ${COMPOSE_PROJECT_NAME}_mailhog
-        ports:
-            - "1025:1025"
-            - "8025:8025"
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: ${COMPOSE_PROJECT_NAME}_phpmyadmin
+    ports:
+      - "8080:80"
+    environment:
+      PMA_HOST: db
+      MYSQL_ROOT_PASSWORD: pass
+    depends_on:
+      - db
