@@ -50,3 +50,4 @@ wp-config.php
 #/wp-content/themes
 
 /db_data/
+.env
