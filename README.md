@@ -37,6 +37,7 @@ O ambiente publicado atualmente utiliza:
     ├── down.sh
     ├── stop.sh
     └── fix-permissions.sh
+```
 
 ## Pré-requisitos
 
