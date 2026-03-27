@@ -1,113 +1,103 @@
 # deWeloPer
 
-## Ambiente de desenvolvimento WordPress com Docker
+## Ambiente local de desenvolvimento WordPress com Docker.
 
-Este repositório contém a configuração necessária para criar um ambiente de desenvolvimento WordPress utilizando Docker. Inclui um container para o WordPress, um para o banco de dados MariaDB e um para o phpMyAdmin.
+Este repositório fornece uma stack pronta para desenvolvimento local com:
+
+- WordPress
+- MariaDB
+- phpMyAdmin
+- MailHog
+- WP-CLI
+
+## Stack atual
+
+O ambiente publicado atualmente utiliza:
+
+- WordPress `6.5.4` com PHP `8.1` e Apache
+- MariaDB
+- phpMyAdmin
+- MailHog
+- WP-CLI instalado no container do WordPress
+
+## Estrutura principal
+
+```text
+.
+├── Dockerfile
+├── docker-compose.yml
+├── entrypoint.sh
+├── .env.example
+├── .htaccess
+├── db_data/
+├── themes/
+└── scripts/
+    ├── build.sh
+    ├── up.sh
+    ├── down.sh
+    ├── stop.sh
+    └── fix-permissions.sh
 
 ## Pré-requisitos
 
+Antes de começar, você precisa ter instalado:
+
 - Docker
 - Docker Compose
+- Git
 
-## Estrutura do projeto
+## Clonando o projeto
 
-- `plugins/`: Diretório para os plugins do WordPress.
-- `themes/`: Diretório para os temas do WordPress.
+`git clone git@github.com:everaldomatias/deweloper.git`
+`cd deweloper`
 
-## Evitar rastreamento de mudanças nas permissões dos arquivos
+## Arquivo .env
 
-Por padrão, o Git rastreia mudanças nas permissões dos arquivos, como as permissões de execução. No entanto, em algumas situações, como quando você trabalha em um sistema de arquivos compartilhado ou em um sistema onde as permissões de arquivos são frequentemente alteradas por outros processos, como o Docker, você pode não querer que o Git rastreie essas mudanças.
-Definindo `core.fileMode` como `false`, você instrui o Git a ignorar essas alterações de permissão.
+Existe um arquivo .env.example na raiz do projeto. Crie seu .env a partir dele:
 
-`git config core.fileMode false`
+`cp .env.example .env`
 
-## Configuração do ambiente
+## Subindo o ambiente
 
-1. Clone o repositório:
-    ```sh
-    git clone git@github.com:everaldomatias/deweloper.git
-    cd deweloper
-    ```
+Na primeira execução:
 
-## Iniciando o ambiente
+`./scripts/build.sh`
 
-Para iniciar o ambiente de desenvolvimento pela primeira vez, use scripts da pasta `./scripts`:
+Após a primeira construção, para subir novamente:
 
-Para subir o ambiente pela primeira vez
+`./scripts/up.sh`
 
-```sh
-./scripts/build.sh
-```
+## Serviços disponíveis
 
-Isso construirá as imagens Docker conforme definido no `Dockerfile` e iniciará os containers.
+Depois que o ambiente estiver no ar, os acessos padrão são:
 
-Para iniciar o ambiente de desenvolvimento após a instalação inicial, use o script:
+### WordPress
 
-```sh
-./scripts/up.sh
-```
+- URL: http://localhost
+- Admin: http://localhost/wp-admin
 
-### Acessando o WordPress
+### Credenciais padrão:
 
-Após iniciar os containers, você pode acessar o WordPress no seu navegador através do endereço:
-[http://localhost](http://localhost)
+- usuário: admin
+- senha: admin
 
-### Acessando o painel administrativo do WordPress
+### phpMyAdmin
 
-[http://localhost/wp-admin](http://localhost/wp-admin)
+- URL: http://localhost:8080
+- servidor: db
+- usuário: root
+- senha: pass
 
-Usuário: admin
+### MailHog
 
-Senha: admin
+- SMTP: localhost:1025
+- interface web: http://localhost:8025
 
-### Acessando o phpMyAdmin
-
-Para acessar o phpMyAdmin e gerenciar o banco de dados MariaDB, utilize o seguinte endereço:
-[http://localhost:8080](http://localhost:8080)
-
-- **Usuário**: root
-- **Senha**: pass
-- **Servidor**: db
-
-### Acessando o Mailhog
-
-O Mailhog é um container com uma caixa de entrada de e-mails, ele registra todos e-mails enviados pelo WordPress. É importante saber que todos e-mails são deletados quando o container é encerrado.
-
-Para acessar o Mailhog (caixa de entrada) acesse http://localhost:8025
-
-## Considerações adicionais
-
-- As alterações feitas nos diretórios `plugins` e `themes` serão persistidas e refletidas diretamente no ambiente de desenvolvimento.
-- A estrutura dos links permanentes é configurada automaticamente após a instalação do WordPress através do script `entrypoint.sh` para `postname`.
-
-## Problemas comuns
-
-### Pedindo credenciais FTP ao instalar plugins ou qualquer ação fora do container
-
-Se o WordPress pedir credenciais FTP ao tentar instalar plugins/temas ou clonar plugins/temas, certifique-se de que as permissões dos diretórios `plugins` e `themes` estão corretas (substituindo $USER pelo seu usuário local, quando necessário):
-
-```sh
-sudo chown -R $USER:www-data plugins themes
-```
-
-```sh
-sudo chmod -R 775 plugins themes
-```
-
-Ou se preferir, rode o script:
-
-```sh
-./scripts/fix-permissions.sh
-```
-
-### Banco de dados não conectando
-
-Se houver problemas de conexão com o banco de dados, certifique-se de que o container do MariaDB está funcionando corretamente e que as credenciais no `docker-compose.yml` estão corretas.
+O MailHog é útil para capturar e-mails disparados pelo WordPress durante o desenvolvimento.
 
 ## Contribuindo
 
 Se você encontrar problemas ou tiver sugestões de melhorias, sinta-se à vontade para abrir uma [issue](https://github.com/everaldomatias/deweloper/issues) ou enviar um pull [request](https://github.com/everaldomatias/deweloper/pulls).
-
 ## Licença
 
-Este projeto está licenciado sob a Licença MIT. Veja o arquivo LICENSE para mais detalhes.
+Este projeto está licenciado sob a licença MIT.
